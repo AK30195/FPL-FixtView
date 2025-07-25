@@ -19,3 +19,14 @@ export async function getTeams() {
     throw error;
   }
 }
+
+export async function getNextGameweek() {
+  try {
+    const res = await axios.get('http://localhost:4000/api/nextGWK');
+    const nextGameweek = res.data.find(event => event.is_next);
+    return nextGameweek ? nextGameweek.id : null;
+  } catch (error) {
+    console.error('Error fetching current gameweek:', error);
+    return null;
+  }
+}

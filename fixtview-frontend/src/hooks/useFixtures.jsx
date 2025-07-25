@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getFixtures, getTeams } from '../features/fixturesAPI';
+import { getFixtures, getTeams, getNextGameweek } from '../features/fixturesAPI';
 
 export function useFixturesByTeam() {
   const [fixturesByTeam, setFixturesByTeam] = useState({});
@@ -9,12 +9,13 @@ export function useFixturesByTeam() {
     async function fetchData() {
       try {
         const [fixtures, teams] = await Promise.all([getFixtures(), getTeams()]);
-
+        const nextGameweek = await getNextGameweek();
+        
         const grouped = {};
 
         teams.forEach((team) => {
            const teamFixtures = fixtures.filter(
-            (fix) => fix.team_h === team.id || fix.team_a === team.id
+            (fix) => fix.event >= nextGameweek && fix.team_h === team.id || fix.team_a === team.id
           );
 
           grouped[team.id] = {
