@@ -22,7 +22,7 @@ export async function getTeams() {
 
 export async function getNextGameweek() {
   try {
-    const res = await axios.get('http://localhost:4000/api/nextGWK');
+    const res = await axios.get('http://localhost:4000/api/gameweeks');
     const nextGameweek = res.data.find(event => event.is_next);
     return nextGameweek ? nextGameweek.id : null;
   } catch (error) {

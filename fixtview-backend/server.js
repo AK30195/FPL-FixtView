@@ -27,16 +27,16 @@ app.get('/api/teams', async (req, res) => {
     }
 });
 
-app.get('/api/nextGWK', async (req, res) => {
+app.get('/api/gameweeks', async (req, res) => {
     try {
-        const response = axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
-        res.json((await response).data.events);
+        const response = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
+        res.json(response.data.events);
     } catch (error) {
-        console.error('Error fetching current gameweek:', error.message);
-        res.status(500).json({ error: 'Failed to fetch current gameweek' });
+        console.error('Error fetching gameweek data:', error.message);
+        res.status(500).json({ error: 'Failed to fetch gameweek data' });
     }
 })
 
 app.listen(PORT, () => {
-    console.log(`FPL proxy server running on http://localhost:${PORT}`);
+    console.log(`FPL FixtView server running on http://localhost:${PORT}`);
 });
