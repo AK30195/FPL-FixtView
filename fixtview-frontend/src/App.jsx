@@ -3,13 +3,17 @@ import './styles/App.css';
 import { useState, useEffect } from 'react';
 import DifficultyToggler from './components/DifficultyToggler';
 import FixtureGrid from './components/FixtureGrid';
-import RangeSelector from './components/RangeSelector'
+import RangeSelector from './components/RangeSelector';
+import ColourToggler from './components/ColourToggler';
 import { getNextGameweek } from './features/fixturesAPI';
+import { defaultDifficultyColours, defaultTeamDiffRatings } from './utils/defaultDifficultySettings';
+
 
 
 function App() {
 
-  const [difficultySettings, setDifficultySettings] = useState([{}]);
+  const [difficultyColours, setDifficultyColours] = useState(defaultDifficultyColours);
+  const [difficultyRatings, setDifficultyRatings] = useState(defaultTeamDiffRatings);
   const [fixtureRange, setFixtureRange] = useState();
   const [rangeStart, setRangeStart] = useState();
   const [rangeMin, setRangeMin] = useState();
@@ -50,15 +54,34 @@ function App() {
     } else {
       setRangeStart(start);
     }
-  }
+  };
+
+  const editRatings = (teamId, venue, value) => {
+  setDifficultyRatings(prev => ({
+    ...prev,
+    [teamId]: {
+      ...prev[teamId],
+      [venue]: value
+    }
+  }));
+};
+
+const editColours = (diffLevel, newColour) => {
+  console.log(newColour);
+  setDifficultyColours(prev => ({
+    ...prev,
+    [diffLevel]: {colour: newColour}
+  }));
+};
 
   return (
     <div>
       <h1>FPL FixtView</h1>
       <FixtureGrid
-        diffSettings={difficultySettings}
         fixtureRange={fixtureRange}
         rangeStart={rangeStart}
+        diffColours={difficultyColours}
+        diffRatings={difficultyRatings}
       />
       <RangeSelector
         fixtureRange={fixtureRange}
@@ -70,8 +93,13 @@ function App() {
         decrementRange={decrementRange}
       />
       <DifficultyToggler
-        diffSettings={difficultySettings}
-        onChange={setDifficultySettings}
+        diffColours={difficultyColours}
+        diffRatings={difficultyRatings}
+        editRatings={editRatings}
+      />
+      <ColourToggler 
+        diffColours={difficultyColours}
+        editColours={editColours}
       />
     </div>
   )
