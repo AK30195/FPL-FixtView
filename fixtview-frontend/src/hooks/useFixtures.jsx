@@ -8,8 +8,7 @@ export function useFixturesByTeam() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const [fixtures, teams] = await Promise.all([getFixtures(), getTeams()]);
-        const nextGameweek =  await getNextGameweek();
+        const [fixtures, teams, nextGameweek] = await Promise.all([getFixtures(), getTeams(), getNextGameweek()]);
         
         const grouped = {};
 

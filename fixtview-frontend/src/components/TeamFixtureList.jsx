@@ -2,7 +2,8 @@ import { useFixturesByTeam } from '../hooks/useFixtures';
 import Fixture from './Fixture';
 import '../styles/TeamFixtureList.css'
 
-function TeamFixturesList({ team, fixtures, fixtureRange }) {
+function TeamFixturesList({ team, fixtures, fixtureRange, rangeStart }) {
+
   const { fixturesByTeam, loading } = useFixturesByTeam();
 
   if (loading) return <p>Loading fixtures...</p>;
@@ -11,7 +12,7 @@ function TeamFixturesList({ team, fixtures, fixtureRange }) {
     <div className='TeamFixtureList' >
       <h2>{team.name}</h2>
       <ul>
-        {fixtures.slice(0, fixtureRange).map((fixture) => {
+        {fixtures.slice(rangeStart - 1, rangeStart + fixtureRange - 1).map((fixture) => {
           const isHome = fixture.team_h === team.id;
           const opponentId = isHome ? fixture.team_a : fixture.team_h;
           const opponent = fixturesByTeam[opponentId]?.team?.name || '';
