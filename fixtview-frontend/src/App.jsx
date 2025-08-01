@@ -5,6 +5,7 @@ import DifficultyToggler from './components/DifficultyToggler';
 import FixtureGrid from './components/FixtureGrid';
 import RangeSelector from './components/RangeSelector';
 import ColourToggler from './components/ColourToggler';
+import ScaleLegend from './components/ScaleLegend';
 import { getNextGameweek } from './features/fixturesAPI';
 import { defaultDifficultyColours, defaultTeamDiffRatings } from './utils/defaultDifficultySettings';
 
@@ -14,7 +15,7 @@ function App() {
 
   const [difficultyColours, setDifficultyColours] = useState(defaultDifficultyColours);
   const [difficultyRatings, setDifficultyRatings] = useState(defaultTeamDiffRatings);
-  const [fixtureRange, setFixtureRange] = useState();
+  const [rangeEnd, setRangeEnd] = useState(38);
   const [rangeStart, setRangeStart] = useState();
   const [rangeMin, setRangeMin] = useState();
 
@@ -24,37 +25,29 @@ function App() {
       if (nextGW !== null) {
         setRangeStart(nextGW);
         setRangeMin(nextGW);
-        if(nextGW <= 34) {
-          setFixtureRange(5)
-        } else {
-          setFixtureRange(39 - nextGW)
-        }
       }
     }
 
     fetchNextGameweek();
   }, []);
 
-  const incrementRange = () => {
-     setFixtureRange((prev) => prev + 1
-  )};
-
-  const decrementRange = () => {
-     setFixtureRange((prev) => prev - 1
-  )};
-
-  const setRange = (num) => {
-      setFixtureRange(num)
-  };
-
   const selectRangeStart = (start) => {
-    if(39 - start < fixtureRange) {
+    if(start > rangeEnd) {
+      setRangeEnd(start);
       setRangeStart(start);
-      setFixtureRange(39 - start);
     } else {
-      setRangeStart(start);
+      setRangeStart(start)
     }
   };
+
+  const selectRangeEnd = (end) => {
+    if(end < rangeStart) {
+      setRangeStart(end);
+      setRangeEnd(end)
+    } else {
+      setRangeEnd(end);
+    }
+  }
 
   const editRatings = (teamId, venue, value) => {
   setDifficultyRatings(prev => ({
@@ -67,30 +60,65 @@ function App() {
 };
 
 const editColours = (diffLevel, newColour) => {
-  console.log(newColour);
   setDifficultyColours(prev => ({
     ...prev,
     [diffLevel]: {colour: newColour}
   }));
 };
 
+const addDifficultyLevel = () => {
+  // Add level & assign defualt neutral gray
+  setDifficultyColours(prev => ({
+    ...prev,
+    [Math.max(...Object.keys(prev).map(Number)) + 1]: { colour: '#c9c8c7' }
+  }));
+};
+
+const removeDifficultyLevel = () => {
+  setDifficultyColours(prevColours => {
+    const levels = Object.keys(prevColours).map(Number);
+    if (levels.length <= 5) return prevColours; // Minimum 5 level scale
+
+    // Get highest point on difficulty scale
+    const maxLevel = Math.max(...levels);
+
+    // Account for teams that are currently assigned max difficulty rating
+    setDifficultyRatings(prevRatings => {
+      const updated = { ...prevRatings };
+
+      for (const teamId in updated) {
+        const team = updated[teamId];
+
+        // If team had the removed level, downgrade it
+        if (team.home === maxLevel) team.home = maxLevel - 1;
+        if (team.away === maxLevel) team.away = maxLevel - 1;
+      }
+
+      return updated;
+    });
+
+    // Remove the highest difficulty level
+    const updated = { ...prevColours };
+    delete updated[maxLevel];
+    return updated;
+  });
+};
+
   return (
     <div>
       <h1>FPL FixtView</h1>
       <FixtureGrid
-        fixtureRange={fixtureRange}
         rangeStart={rangeStart}
+        rangeEnd={rangeEnd}
         diffColours={difficultyColours}
         diffRatings={difficultyRatings}
       />
       <RangeSelector
-        fixtureRange={fixtureRange}
-        setRange={setRange}
         rangeStart={rangeStart}
+        rangeEnd={rangeEnd}
         rangeMin={rangeMin}
         selectStart={selectRangeStart}
-        incrementRange={incrementRange}
-        decrementRange={decrementRange}
+        selectEnd={selectRangeEnd}
       />
       <DifficultyToggler
         diffColours={difficultyColours}
@@ -100,6 +128,11 @@ const editColours = (diffLevel, newColour) => {
       <ColourToggler 
         diffColours={difficultyColours}
         editColours={editColours}
+        addDiffLevel={addDifficultyLevel}
+        removeDiffLevel={removeDifficultyLevel}
+      />
+      <ScaleLegend 
+        diffColours={difficultyColours}
       />
     </div>
   )

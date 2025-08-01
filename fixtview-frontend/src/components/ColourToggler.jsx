@@ -1,10 +1,11 @@
 import { HexColorPicker } from "react-colorful";
 import { useState } from "react";
 
-function ColourToggler({ diffColours, editColours }) {
+function ColourToggler({ diffColours, editColours, addDiffLevel, removeDiffLevel }) {
 
     const [selectedDiff, setSelectedDiff] = useState(1)
-    const initialColour = diffColours[selectedDiff].colour
+    const initialColour = diffColours[selectedDiff]?.colour || diffColours[1].colour
+    const levels = Object.keys(diffColours).map(Number);
 
     return (
         <div>
@@ -16,7 +17,7 @@ function ColourToggler({ diffColours, editColours }) {
                 value={selectedDiff}
                 onChange={(e) => setSelectedDiff(e.target.value)}
             >
-                {Object.keys(diffColours).map((level) => (
+                {levels.map((level) => (
                     <option key={level} value={level}>
                         {level}
                     </option>
@@ -27,6 +28,12 @@ function ColourToggler({ diffColours, editColours }) {
                 color={initialColour}
                 onChange={(newColour) => editColours(Number(selectedDiff), newColour)}
             />
+            <button onClick={addDiffLevel}>
+                Add colour to FDR scale
+            </button>
+            <button onClick={removeDiffLevel} disabled={levels.length <= 5}>
+                Remove colour from FDR scale
+            </button>
         </div>
     )
 }

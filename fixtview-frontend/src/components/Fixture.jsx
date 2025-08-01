@@ -6,7 +6,7 @@ function Fixture({ opponent, isHome, gameweek, difficulty, diffColours }) {
     return (
         <div style={{backgroundColor: fixtureColour}}>
             <span>
-                {opponent} {isHome ? '(H)' : '(A)'} GW{gameweek} {difficulty}    
+                {opponent} {isHome ? '(H)' : '(A)'} GW{gameweek}    
             </span>
         </div>
 
