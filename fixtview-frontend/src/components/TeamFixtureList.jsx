@@ -1,6 +1,5 @@
 import { useFixturesByTeam } from '../hooks/useFixtures';
 import Fixture from './Fixture';
-import '../styles/TeamFixtureList.css'
 
 function TeamFixturesList({ team, fixtures, rangeStart, rangeEnd, diffColours, diffRatings }) {
 
@@ -9,9 +8,9 @@ function TeamFixturesList({ team, fixtures, rangeStart, rangeEnd, diffColours, d
   if (loading) return <p>Loading fixtures...</p>;
 
   return (
-    <div className='TeamFixtureList' >
-      <h2>{team.name}</h2>
-      <ul>
+    <div className='' >
+      <tr>
+        <td className='sticky'>{team.short_name}</td>
         {fixtures.slice(rangeStart - 1, rangeEnd).map((fixture) => {
           const isHome = fixture.team_h === team.id;
           const opponentId = isHome ? fixture.team_a : fixture.team_h;
@@ -29,7 +28,7 @@ function TeamFixturesList({ team, fixtures, rangeStart, rangeEnd, diffColours, d
             />
           );
         })}
-      </ul>
+      </tr>
     </div>
   );
 }

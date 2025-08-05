@@ -1,5 +1,3 @@
-
-import './styles/App.css';
 import { useState, useEffect } from 'react';
 import DifficultyToggler from './components/DifficultyToggler';
 import FixtureGrid from './components/FixtureGrid';
@@ -8,8 +6,6 @@ import ColourToggler from './components/ColourToggler';
 import ScaleLegend from './components/ScaleLegend';
 import { getNextGameweek } from './features/fixturesAPI';
 import { defaultDifficultyColours, defaultTeamDiffRatings } from './utils/defaultDifficultySettings';
-
-
 
 function App() {
 
@@ -32,7 +28,7 @@ function App() {
   }, []);
 
   const selectRangeStart = (start) => {
-    if(start > rangeEnd) {
+    if (start > rangeEnd) {
       setRangeEnd(start);
       setRangeStart(start);
     } else {
@@ -41,7 +37,7 @@ function App() {
   };
 
   const selectRangeEnd = (end) => {
-    if(end < rangeStart) {
+    if (end < rangeStart) {
       setRangeStart(end);
       setRangeEnd(end)
     } else {
@@ -50,69 +46,79 @@ function App() {
   }
 
   const editRatings = (teamId, venue, value) => {
-  setDifficultyRatings(prev => ({
-    ...prev,
-    [teamId]: {
-      ...prev[teamId],
-      [venue]: value
-    }
-  }));
-};
-
-const editColours = (diffLevel, newColour) => {
-  setDifficultyColours(prev => ({
-    ...prev,
-    [diffLevel]: {colour: newColour}
-  }));
-};
-
-const addDifficultyLevel = () => {
-  // Add level & assign defualt neutral gray
-  setDifficultyColours(prev => ({
-    ...prev,
-    [Math.max(...Object.keys(prev).map(Number)) + 1]: { colour: '#c9c8c7' }
-  }));
-};
-
-const removeDifficultyLevel = () => {
-  setDifficultyColours(prevColours => {
-    const levels = Object.keys(prevColours).map(Number);
-    if (levels.length <= 5) return prevColours; // Minimum 5 level scale
-
-    // Get highest point on difficulty scale
-    const maxLevel = Math.max(...levels);
-
-    // Account for teams that are currently assigned max difficulty rating
-    setDifficultyRatings(prevRatings => {
-      const updated = { ...prevRatings };
-
-      for (const teamId in updated) {
-        const team = updated[teamId];
-
-        // If team had the removed level, downgrade it
-        if (team.home === maxLevel) team.home = maxLevel - 1;
-        if (team.away === maxLevel) team.away = maxLevel - 1;
+    setDifficultyRatings(prev => ({
+      ...prev,
+      [teamId]: {
+        ...prev[teamId],
+        [venue]: value
       }
+    }));
+  };
 
+  const editColours = (diffLevel, newColour) => {
+    setDifficultyColours(prev => ({
+      ...prev,
+      [diffLevel]: { colour: newColour }
+    }));
+  };
+
+  const addDifficultyLevel = () => {
+    // Add level & assign defualt neutral gray
+    setDifficultyColours(prev => ({
+      ...prev,
+      [Math.max(...Object.keys(prev).map(Number)) + 1]: { colour: '#c9c8c7' }
+    }));
+  };
+
+  const removeDifficultyLevel = () => {
+    setDifficultyColours(prevColours => {
+      const levels = Object.keys(prevColours).map(Number);
+      if (levels.length <= 5) return prevColours; // Minimum 5 level scale
+
+      // Get highest point on difficulty scale
+      const maxLevel = Math.max(...levels);
+
+      // Account for teams that are currently assigned max difficulty rating
+      setDifficultyRatings(prevRatings => {
+        const updated = { ...prevRatings };
+
+        for (const teamId in updated) {
+          const team = updated[teamId];
+
+          // If team had the removed difficulty rating, downgrade it
+          if (team.home === maxLevel) team.home = maxLevel - 1;
+          if (team.away === maxLevel) team.away = maxLevel - 1;
+        }
+
+        return updated;
+      });
+
+      // Remove the highest difficulty level
+      const updated = { ...prevColours };
+      delete updated[maxLevel];
       return updated;
     });
-
-    // Remove the highest difficulty level
-    const updated = { ...prevColours };
-    delete updated[maxLevel];
-    return updated;
-  });
-};
+  };
 
   return (
-    <div>
+    <div className='bg-blue-200 flex flex-col items-center justify-center'>
       <h1>FPL FixtView</h1>
-      <FixtureGrid
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        diffColours={difficultyColours}
-        diffRatings={difficultyRatings}
-      />
+      <div id="controls" className='grid grid-cols-2 md:grid-cols-3'>
+        <ScaleLegend
+          diffColours={difficultyColours}
+        />
+        <ColourToggler
+          diffColours={difficultyColours}
+          editColours={editColours}
+          addDiffLevel={addDifficultyLevel}
+          removeDiffLevel={removeDifficultyLevel}
+        />
+        <DifficultyToggler
+          diffColours={difficultyColours}
+          diffRatings={difficultyRatings}
+          editRatings={editRatings}
+        />
+      </div>
       <RangeSelector
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
@@ -120,19 +126,11 @@ const removeDifficultyLevel = () => {
         selectStart={selectRangeStart}
         selectEnd={selectRangeEnd}
       />
-      <DifficultyToggler
+      <FixtureGrid
+        rangeStart={rangeStart}
+        rangeEnd={rangeEnd}
         diffColours={difficultyColours}
         diffRatings={difficultyRatings}
-        editRatings={editRatings}
-      />
-      <ColourToggler 
-        diffColours={difficultyColours}
-        editColours={editColours}
-        addDiffLevel={addDifficultyLevel}
-        removeDiffLevel={removeDifficultyLevel}
-      />
-      <ScaleLegend 
-        diffColours={difficultyColours}
       />
     </div>
   )

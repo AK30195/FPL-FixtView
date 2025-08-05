@@ -29,10 +29,10 @@ function ColourToggler({ diffColours, editColours, addDiffLevel, removeDiffLevel
                 onChange={(newColour) => editColours(Number(selectedDiff), newColour)}
             />
             <button onClick={addDiffLevel}>
-                Add colour to FDR scale
+                Add colour to FDR
             </button>
             <button onClick={removeDiffLevel} disabled={levels.length <= 5}>
-                Remove colour from FDR scale
+                Remove colour from FDR
             </button>
         </div>
     )
