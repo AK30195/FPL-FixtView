@@ -9,19 +9,24 @@ function ColourToggler({ diffColours, editColours, addDiffLevel, removeDiffLevel
 
     return (
         <div className="colour-toggle-div">
-            <h2>Customise FDR Colours</h2>
-            <label htmlFor="level-select">Change FDR colour:</label>
-            <select
-                id="level-select"
-                value={selectedDiff}
-                onChange={(e) => setSelectedDiff(e.target.value)}
-            >
-                {levels.map((level) => (
-                    <option key={level} value={level}>
-                        {level}
-                    </option>
-                ))}
-            </select>
+            <div className="flex-center">
+                <h2>Customise FDR Colours</h2>
+            </div>
+            <div className="flex-center">
+                <label htmlFor="level-select">Change FDR colour:</label>
+                <select
+                    id="level-select"
+                    value={selectedDiff}
+                    onChange={(e) => setSelectedDiff(e.target.value)}
+                >
+                    {levels.map((level) => (
+                        <option key={level} value={level}>
+                            {level}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
             <div className="color-picker-div" >
                 <HexColorPicker
                     className="color-picker"
@@ -29,13 +34,14 @@ function ColourToggler({ diffColours, editColours, addDiffLevel, removeDiffLevel
                     onChange={(newColour) => editColours(Number(selectedDiff), newColour)}
                 />
             </div>
-
-            <button onClick={addDiffLevel}>
-                Add colour to FDR
-            </button>
-            <button onClick={removeDiffLevel} disabled={levels.length <= 5}>
-                Remove colour from FDR
-            </button>
+            <div className="flex-center">
+                <button onClick={addDiffLevel}>
+                    Add FDR colour
+                </button>
+                <button onClick={removeDiffLevel} disabled={levels.length <= 5}>
+                    Remove FDR colour
+                </button>
+            </div>
         </div>
     )
 }

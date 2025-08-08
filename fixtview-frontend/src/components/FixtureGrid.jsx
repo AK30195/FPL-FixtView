@@ -3,13 +3,12 @@ import TeamFixtureList from './TeamFixtureList'
 
 function FixtureGrid({ rangeStart, rangeEnd, diffColours, diffRatings }) {
     const { fixturesByTeam, loading } = useFixturesByTeam();
-    const gridCols = rangeEnd - rangeStart;
 
     if (loading) return <p>Loading fixtures...</p>;
 
     return (
-        <div className={`grid grid-cols-${gridCols}`}>
-            <div  >
+        <div className='grid-container' >
+            <div className='fixture-grid'>
                 {Object.values(fixturesByTeam).map(({ team, fixtures }) => (
                     <TeamFixtureList
                         key={team.id}

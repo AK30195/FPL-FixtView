@@ -9,16 +9,24 @@
     @apply text-green-600 text-3xl
   }
 
+  h2 {
+    @apply text-2xl mb-2 text-center
+  }
+
   button {
-    @apply p-4 m-2 bg-blue-100 text-center 
-    
+    @apply p-4 m-2 bg-sky-100 text-center 
+    border-2 border-slate-500 rounded-xl
     disabled:bg-gray-300 disabled:cursor-not-allowed
+  }
+
+  select {
+    @apply bg-sky-100 border-2 border-slate-500 rounded-sm p-1 m-1 
   }
 }
 
 @layer components {
     .controls-div {
-      @apply grid grid-cols-2 md:grid-cols-3 items-center;
+      @apply grid grid-cols-2 lg:grid-cols-3 items-center;
     }
     
     .legend {
@@ -39,6 +47,22 @@
 
     .color-picker {
       @apply border-3 border-slate-500 rounded-xl mx-4
+    }
+
+    .diff-toggler-div {
+      @apply flex flex-col w-full col-span-2 lg:col-span-1
+    }
+
+    .diff-select-div {
+      @apply grid auto-rows-max lg:grid-cols-2 grid-cols-2 gap-2 p-3 w-full
+    }
+
+    .team-diff-div {
+      @apply flex-center border-1
+    }
+
+    .team-name-div {
+      @apply mx-2 bg-gray-300 p-1
     }
 }
 
