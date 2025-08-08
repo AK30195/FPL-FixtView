@@ -101,9 +101,9 @@ function App() {
   };
 
   return (
-    <div className='bg-blue-200 flex flex-col items-center justify-center'>
+    <>
       <h1>FPL FixtView</h1>
-      <div id="controls" className='grid grid-cols-2 md:grid-cols-3'>
+      <div id="controls" className='controls-div'>
         <ScaleLegend
           diffColours={difficultyColours}
         />
@@ -132,7 +132,7 @@ function App() {
         diffColours={difficultyColours}
         diffRatings={difficultyRatings}
       />
-    </div>
+    </>
   )
 }
 

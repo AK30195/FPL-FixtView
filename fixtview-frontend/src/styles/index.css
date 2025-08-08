@@ -1,15 +1,47 @@
 @import "tailwindcss";
 
 @layer base {
+  body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+
   h1 {
     @apply text-green-600 text-3xl
   }
 
   button {
-    @apply p-4 m-2 bg-white disabled:bg-gray-400 disabled:cursor-not-allowed
+    @apply p-4 m-2 bg-blue-100 text-center 
+    
+    disabled:bg-gray-300 disabled:cursor-not-allowed
   }
 }
 
 @layer components {
+    .controls-div {
+      @apply grid grid-cols-2 md:grid-cols-3 items-center;
+    }
     
+    .legend {
+      @apply flex-col justify-center items-center text-center m-4 w-4/5;
+    }
+
+    .legend-rank {
+      @apply border-2 border-slate-500 rounded-xl m-1 
+    }
+
+    .colour-toggle-div {
+      @apply m-2 
+    }
+
+    .color-picker-div {
+      @apply w-full flex-center py-4
+    }
+
+    .color-picker {
+      @apply border-3 border-slate-500 rounded-xl mx-4
+    }
+}
+
+@utility flex-center {
+  @apply flex justify-center items-center;
 }

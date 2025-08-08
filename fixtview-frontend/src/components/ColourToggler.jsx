@@ -8,10 +8,9 @@ function ColourToggler({ diffColours, editColours, addDiffLevel, removeDiffLevel
     const levels = Object.keys(diffColours).map(Number);
 
     return (
-        <div>
-            <h2>Rating Colours</h2>
-            <p>Choose custom colours for your grid below</p>
-            <label htmlFor="level-select">Change colour for difficulty level:</label>
+        <div className="colour-toggle-div">
+            <h2>Customise FDR Colours</h2>
+            <label htmlFor="level-select">Change FDR colour:</label>
             <select
                 id="level-select"
                 value={selectedDiff}
@@ -23,11 +22,14 @@ function ColourToggler({ diffColours, editColours, addDiffLevel, removeDiffLevel
                     </option>
                 ))}
             </select>
+            <div className="color-picker-div" >
+                <HexColorPicker
+                    className="color-picker"
+                    color={initialColour}
+                    onChange={(newColour) => editColours(Number(selectedDiff), newColour)}
+                />
+            </div>
 
-            <HexColorPicker
-                color={initialColour}
-                onChange={(newColour) => editColours(Number(selectedDiff), newColour)}
-            />
             <button onClick={addDiffLevel}>
                 Add colour to FDR
             </button>
