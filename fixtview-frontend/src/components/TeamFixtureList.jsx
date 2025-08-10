@@ -10,7 +10,7 @@ function TeamFixturesList({ team, fixtures, rangeStart, rangeEnd, diffColours, d
 
   return (
     <div className="fixture-list">
-      <div className="team-name">{team.short_name}</div>
+      <div className="team-cell">{team.short_name}</div>
       {fixtures.slice(rangeStart - 1, rangeEnd).map((fixture) => {
         const isHome = fixture.team_h === team.id;
         const opponentId = isHome ? fixture.team_a : fixture.team_h;

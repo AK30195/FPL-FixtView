@@ -73,7 +73,7 @@ function App() {
   const removeDifficultyLevel = () => {
     setDifficultyColours(prevColours => {
       const levels = Object.keys(prevColours).map(Number);
-      if (levels.length <= 5) return prevColours; // Minimum 5 level scale
+      if (levels.length <= 4) return prevColours; // Minimum 5 level scale
 
       // Get highest point on difficulty scale
       const maxLevel = Math.max(...levels);
@@ -102,7 +102,9 @@ function App() {
 
   return (
     <>
-      <h1>FPL FixtView</h1>
+      <div className='header'>
+        <h1>FPL FixtView</h1>
+      </div>
       <div id="controls" className='controls-div'>
         <ScaleLegend
           diffColours={difficultyColours}
@@ -119,13 +121,15 @@ function App() {
           editRatings={editRatings}
         />
       </div>
-      <RangeSelector
+      <div className='range-select-div'>
+        <RangeSelector
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
         rangeMin={rangeMin}
         selectStart={selectRangeStart}
         selectEnd={selectRangeEnd}
-      />
+       />
+      </div>
       <FixtureGrid
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}

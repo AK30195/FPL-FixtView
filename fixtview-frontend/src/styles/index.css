@@ -6,11 +6,11 @@
   }
 
   h1 {
-    @apply text-green-600 text-3xl
+    @apply text-teal-50 text-3xl flex-center 
   }
 
   h2 {
-    @apply text-2xl mb-2 text-center
+    @apply text-xl lg:text-xl my-2 text-center
   }
 
   button {
@@ -25,8 +25,14 @@
 }
 
 @layer components {
+    .header {
+      @apply bg-slate-500 p-3
+    }
+
     .controls-div {
-      @apply grid grid-cols-2 lg:grid-cols-3 items-center;
+      @apply grid grid-cols-2 lg:grid-cols-3 
+       border-y-2  
+       bg-gradient-to-bl from-sky-100 to-stone-50;
     }
     
     .legend {
@@ -50,11 +56,11 @@
     }
 
     .diff-toggler-div {
-      @apply flex flex-col w-full col-span-2 lg:col-span-1
+      @apply flex flex-col w-full col-span-2 lg:col-span-1  
     }
 
     .diff-select-div {
-      @apply grid auto-rows-max lg:grid-cols-2 grid-cols-2 gap-2 p-3 w-full
+      @apply grid auto-rows-max grid-cols-2 gap-2 p-3 w-full
     }
 
     .team-diff-div {
@@ -62,7 +68,45 @@
     }
 
     .team-name-div {
-      @apply mx-2 bg-gray-300 p-1
+      @apply mx-2 bg-gray-200 p-1 rounded-sm border-1 w-12 lg:w-15
+      text-center
+    }
+
+    .range-select-div {
+      @apply flex-center pt-4
+    }
+
+    .grid-container {
+      @apply m-1 overflow-x-auto 
+    }
+
+    .grid-header {
+      @apply p-1 flex gap-0.5
+    }
+
+    .grid-corner {
+      @apply p-2 border-2 rounded-sm w-14 lg:w-22 text-center
+    }
+
+    .header-cell {
+      @apply p-2 border-2 rounded-sm w-14 lg:w-22 text-center
+    }
+
+    .fixture-grid {
+      @apply flex-col
+    }
+
+    .fixture-list {
+      @apply p-1 flex gap-0.5
+    }
+
+    .team-cell {
+      @apply p-2 flex-center border-2 border-sky-300 rounded-sm sticky left-0
+      bg-slate-700 text-white
+    }
+
+    .fixture-cell {
+      @apply p-2 border-2 rounded-sm w-14 lg:w-22 text-center
     }
 }
 

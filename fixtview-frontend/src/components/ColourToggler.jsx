@@ -38,7 +38,7 @@ function ColourToggler({ diffColours, editColours, addDiffLevel, removeDiffLevel
                 <button onClick={addDiffLevel}>
                     Add FDR colour
                 </button>
-                <button onClick={removeDiffLevel} disabled={levels.length <= 5}>
+                <button onClick={removeDiffLevel} disabled={levels.length <= 4}>
                     Remove FDR colour
                 </button>
             </div>
