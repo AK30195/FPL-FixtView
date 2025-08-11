@@ -14,7 +14,7 @@ function DifficultyToggler({ diffColours, diffRatings, editRatings }) {
                         </div>
                         <div>
                             <label htmlFor={`home-select-${teamId}`}>
-                                Home:
+                                Home
                                 <select
                                     id={`home-select-${teamId}`}
                                     value={team.home}
@@ -30,7 +30,7 @@ function DifficultyToggler({ diffColours, diffRatings, editRatings }) {
                         </div>
                         <div>
                             <label htmlFor={`away-select-${teamId}`}>
-                                Away:
+                                Away
                                 <select
                                     id={`away-select-${teamId}`}
                                     value={team.away}
