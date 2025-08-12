@@ -6,15 +6,30 @@ import ColourToggler from './components/ColourToggler';
 import ScaleLegend from './components/ScaleLegend';
 import { getNextGameweek } from './features/fixturesAPI';
 import { defaultDifficultyColours, defaultTeamDiffRatings } from './utils/defaultDifficultySettings';
+import ResetButton from './components/ResetButton';
+import ControlsButton from './components/ControlsButton';
 
 function App() {
 
-  const [difficultyColours, setDifficultyColours] = useState(defaultDifficultyColours);
-  const [difficultyRatings, setDifficultyRatings] = useState(defaultTeamDiffRatings);
+  // Get state for FDR colours & ratings from either localStorage or defaults
+  const [difficultyColours, setDifficultyColours] = useState(() => {
+    const savedState = localStorage.getItem('difficultyColours');
+    return savedState ? JSON.parse(savedState) : defaultDifficultyColours;
+  });
+  const [difficultyRatings, setDifficultyRatings] = useState(() => {
+    const savedState = localStorage.getItem('difficultyRatings');
+    return savedState ? JSON.parse(savedState) : defaultTeamDiffRatings;
+  });
+
+  // State for fixture range selection
   const [rangeEnd, setRangeEnd] = useState(38);
   const [rangeStart, setRangeStart] = useState();
   const [rangeMin, setRangeMin] = useState();
 
+  // State for showing/hiding control features
+  const [showControls, setShowControls] = useState(true);
+
+  // Load next gameweek into state by calling api
   useEffect(() => {
     async function fetchNextGameweek() {
       const nextGW = await getNextGameweek();
@@ -26,6 +41,15 @@ function App() {
 
     fetchNextGameweek();
   }, []);
+
+  // Update localStorage whenever FDR colours/ratings changed by user
+  useEffect(() => {
+    localStorage.setItem('difficultyColours', JSON.stringify(difficultyColours));
+  }, [difficultyColours]);
+
+  useEffect(() => {
+    localStorage.setItem('difficultyRatings', JSON.stringify(difficultyRatings));
+  }, [difficultyRatings]);
 
   const selectRangeStart = (start) => {
     if (start > rangeEnd) {
@@ -73,7 +97,7 @@ function App() {
   const removeDifficultyLevel = () => {
     setDifficultyColours(prevColours => {
       const levels = Object.keys(prevColours).map(Number);
-      if (levels.length <= 4) return prevColours; // Minimum 5 level scale
+      if (levels.length <= 2) return prevColours; // Minimum 2 level scale
 
       // Get highest point on difficulty scale
       const maxLevel = Math.max(...levels);
@@ -100,41 +124,61 @@ function App() {
     });
   };
 
+  const resetSettings = () => {
+    setDifficultyColours(defaultDifficultyColours);
+    setDifficultyRatings(defaultTeamDiffRatings);
+    localStorage.setItem('difficultyColours', JSON.stringify(defaultDifficultyColours));
+    localStorage.setItem('difficultyRatings', JSON.stringify(defaultTeamDiffRatings));
+  }
+
   return (
     <>
       <div className='header'>
-        <h1>FPL FixtView</h1>
+        <div className='logo-div'>
+          <h1>FPL FixtView</h1>
+        </div>
+        <div className='header-buttons-div'>
+          <ResetButton
+            resetSettings={resetSettings}
+          />
+          <ControlsButton
+            showControls={showControls}
+            setShowControls={setShowControls}
+          />
+        </div>
       </div>
-      <div id="controls" className='controls-div'>
-        <ScaleLegend
-          diffColours={difficultyColours}
-        />
-        <ColourToggler
-          diffColours={difficultyColours}
-          editColours={editColours}
-          addDiffLevel={addDifficultyLevel}
-          removeDiffLevel={removeDifficultyLevel}
-        />
-        <DifficultyToggler
-          diffColours={difficultyColours}
-          diffRatings={difficultyRatings}
-          editRatings={editRatings}
-        />
-      </div>
+      {showControls && (
+        <div className='controls-div'>
+          <ScaleLegend
+            difficultyColours={difficultyColours}
+          />
+          <ColourToggler
+            difficultyColours={difficultyColours}
+            editColours={editColours}
+            addDiffLevel={addDifficultyLevel}
+            removeDiffLevel={removeDifficultyLevel}
+          />
+          <DifficultyToggler
+            difficultyColours={difficultyColours}
+            difficultyRatings={difficultyRatings}
+            editRatings={editRatings}
+          />
+        </div>
+      )}
       <div className='range-select-div'>
         <RangeSelector
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        rangeMin={rangeMin}
-        selectStart={selectRangeStart}
-        selectEnd={selectRangeEnd}
-       />
+          rangeStart={rangeStart}
+          rangeEnd={rangeEnd}
+          rangeMin={rangeMin}
+          selectStart={selectRangeStart}
+          selectEnd={selectRangeEnd}
+        />
       </div>
       <FixtureGrid
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
-        diffColours={difficultyColours}
-        diffRatings={difficultyRatings}
+        difficultyColours={difficultyColours}
+        difficultyRatings={difficultyRatings}
       />
     </>
   )

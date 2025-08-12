@@ -1,8 +1,8 @@
-function Fixture({ opponent, isHome, gameweek, difficulty, diffColours }) {
-  const fixtureColour = diffColours[difficulty].colour;
+function Fixture({ opponent, isHome, difficulty, difficultyColours }) {
+  const fixtureColour = difficultyColours[difficulty].colour;
   return (
     <div className="fixture-cell" style={{ backgroundColor: fixtureColour }}>
-      {opponent} {isHome ? "(H)" : "(A)"}
+      {opponent}{isHome ? "(H)" : "(A)"}
     </div>
   );
 }

@@ -26,6 +26,6 @@ export const defaultTeamDiffRatings = {
   17: { name: "SUN", home: 1, away: 2 },
   18: { name: "TOT", home: 3, away: 3 },
   19: { name: "WHU", home: 2, away: 3 },
-  20: { name: "WOL", home: 2, away: 3 }
+  20: { name: "WOL", home: 2, away: 2 }
 };
 

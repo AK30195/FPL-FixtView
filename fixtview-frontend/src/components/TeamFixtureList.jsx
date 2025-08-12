@@ -1,7 +1,8 @@
 import { useFixturesByTeam } from "../hooks/useFixtures";
 import Fixture from "./Fixture";
 
-function TeamFixturesList({ team, fixtures, rangeStart, rangeEnd, diffColours, diffRatings, }) {
+function TeamFixturesList({ team, fixtures, rangeStart, rangeEnd, 
+  difficultyColours, difficultyRatings, }) {
 
   const { fixturesByTeam, loading } = useFixturesByTeam();
   
@@ -17,8 +18,8 @@ function TeamFixturesList({ team, fixtures, rangeStart, rangeEnd, diffColours, d
         const opponent = fixturesByTeam[opponentId]?.team?.short_name || "";
         const gameweek = fixture.event;
         const difficulty = isHome
-          ? diffRatings[opponentId].home
-          : diffRatings[opponentId].away;
+          ? difficultyRatings[opponentId].home
+          : difficultyRatings[opponentId].away;
         return (
           <Fixture
             key={fixture.id}
@@ -26,7 +27,7 @@ function TeamFixturesList({ team, fixtures, rangeStart, rangeEnd, diffColours, d
             isHome={isHome}
             gameweek={gameweek}
             difficulty={difficulty}
-            diffColours={diffColours}
+            difficultyColours={difficultyColours}
           />
         );
       })}

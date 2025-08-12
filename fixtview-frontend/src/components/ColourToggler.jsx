@@ -1,11 +1,11 @@
 import { HexColorPicker } from "react-colorful";
 import { useState } from "react";
 
-function ColourToggler({ diffColours, editColours, addDiffLevel, removeDiffLevel }) {
+function ColourToggler({ difficultyColours, editColours, addDiffLevel, removeDiffLevel }) {
 
     const [selectedDiff, setSelectedDiff] = useState(1)
-    const initialColour = diffColours[selectedDiff]?.colour || diffColours[1].colour
-    const levels = Object.keys(diffColours).map(Number);
+    const initialColour = difficultyColours[selectedDiff]?.colour || difficultyColours[1].colour
+    const levels = Object.keys(difficultyColours).map(Number);
 
     return (
         <div className="colour-toggle-div">
@@ -13,7 +13,7 @@ function ColourToggler({ diffColours, editColours, addDiffLevel, removeDiffLevel
                 <h2>Customise FDR Colours</h2>
             </div>
             <div className="flex-center">
-                <label htmlFor="level-select">Change FDR colour:</label>
+                <label htmlFor="level-select">FDR colour</label>
                 <select
                     id="level-select"
                     value={selectedDiff}
@@ -36,10 +36,10 @@ function ColourToggler({ diffColours, editColours, addDiffLevel, removeDiffLevel
             </div>
             <div className="flex-center">
                 <button onClick={addDiffLevel}>
-                    Add FDR colour
+                    Add Colour
                 </button>
-                <button onClick={removeDiffLevel} disabled={levels.length <= 4}>
-                    Remove FDR colour
+                <button onClick={removeDiffLevel} disabled={levels.length <= 2}>
+                    Delete Colour
                 </button>
             </div>
         </div>

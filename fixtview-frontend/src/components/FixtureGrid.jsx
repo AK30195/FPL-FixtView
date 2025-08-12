@@ -1,7 +1,7 @@
 import { useFixturesByTeam } from '../hooks/useFixtures';
 import TeamFixtureList from './TeamFixtureList'
 
-function FixtureGrid({ rangeStart, rangeEnd, diffColours, diffRatings }) {
+function FixtureGrid({ rangeStart, rangeEnd, difficultyColours, difficultyRatings }) {
     const { fixturesByTeam, loading } = useFixturesByTeam();
 
     if (
@@ -35,8 +35,8 @@ function FixtureGrid({ rangeStart, rangeEnd, diffColours, diffRatings }) {
                                 fixtures={fixtures}
                                 rangeStart={rangeStart}
                                 rangeEnd={rangeEnd}
-                                diffColours={diffColours}
-                                diffRatings={diffRatings}
+                                difficultyColours={difficultyColours}
+                                difficultyRatings={difficultyRatings}
                             />
                         ))}
                     </div>

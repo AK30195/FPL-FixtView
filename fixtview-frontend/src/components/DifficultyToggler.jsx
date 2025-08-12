@@ -1,13 +1,13 @@
 
-function DifficultyToggler({ diffColours, diffRatings, editRatings }) {
+function DifficultyToggler({ difficultyColours, difficultyRatings, editRatings }) {
 
-    const difficultyLevels = Object.keys(diffColours).map(Number);
+    const difficultyLevels = Object.keys(difficultyColours).map(Number);
 
     return (
         <div className="diff-toggler-div">
-            <h2>Adjust FDR by team</h2>
+            <h2>Adjust Team FDR Ratings</h2>
             <div className="diff-select-div">
-                {Object.entries(diffRatings).map(([teamId, team]) => (
+                {Object.entries(difficultyRatings).map(([teamId, team]) => (
                     <div className="team-diff-div" key={teamId}>
                         <div className="team-name-div">
                             <p>{team.name}</p>
