@@ -35,7 +35,18 @@ app.get('/api/gameweeks', async (req, res) => {
         console.error('Error fetching gameweek data:', error.message);
         res.status(500).json({ error: 'Failed to fetch gameweek data' });
     }
-})
+});
+
+// Catches unfound endpoints
+app.use((req, res) => {
+    res.status(404).json({ error: 'Endpoint not found' });
+});
+
+// Catch all error handler
+app.use((err, req, res, next) => {
+    console.error('Unexpected error:', err.stack || err.message);
+    res.status(500).json({ error: 'Internal server error' });
+});
 
 app.listen(PORT, () => {
     console.log(`FPL FixtView server running on http://localhost:${PORT}`);
