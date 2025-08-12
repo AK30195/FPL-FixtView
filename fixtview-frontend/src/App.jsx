@@ -124,12 +124,15 @@ function App() {
     });
   };
 
+
   const resetSettings = () => {
-    setDifficultyColours(defaultDifficultyColours);
-    setDifficultyRatings(defaultTeamDiffRatings);
+    // Ensures react gets new object reference to re-render
+    setDifficultyRatings(JSON.parse(JSON.stringify(defaultTeamDiffRatings)));
+    setDifficultyColours(JSON.parse(JSON.stringify(defaultDifficultyColours)));
+    
     localStorage.setItem('difficultyColours', JSON.stringify(defaultDifficultyColours));
     localStorage.setItem('difficultyRatings', JSON.stringify(defaultTeamDiffRatings));
-  }
+  };
 
   return (
     <>
