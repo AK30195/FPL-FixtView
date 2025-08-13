@@ -9,6 +9,7 @@ import ControlsButton from './components/ControlsButton';
 import Footer from './components/Footer';
 import { getNextGameweek } from './features/fixturesAPI';
 import { defaultDifficultyColours, defaultTeamDiffRatings } from './utils/defaultDifficultySettings';
+import { Analytics } from "@vercel/analytics/react";
 
 
 function App() {
@@ -186,6 +187,7 @@ function App() {
         difficultyRatings={difficultyRatings}
       />
       <Footer/>
+      <Analytics/>
     </>
   )
 }
