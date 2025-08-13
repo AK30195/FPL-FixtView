@@ -4,10 +4,12 @@ import FixtureGrid from './components/FixtureGrid';
 import RangeSelector from './components/RangeSelector';
 import ColourToggler from './components/ColourToggler';
 import ScaleLegend from './components/ScaleLegend';
-import { getNextGameweek } from './features/fixturesAPI';
-import { defaultDifficultyColours, defaultTeamDiffRatings } from './utils/defaultDifficultySettings';
 import ResetButton from './components/ResetButton';
 import ControlsButton from './components/ControlsButton';
+import Footer from './components/Footer';
+import { getNextGameweek } from './features/fixturesAPI';
+import { defaultDifficultyColours, defaultTeamDiffRatings } from './utils/defaultDifficultySettings';
+
 
 function App() {
 
@@ -183,6 +185,7 @@ function App() {
         difficultyColours={difficultyColours}
         difficultyRatings={difficultyRatings}
       />
+      <Footer/>
     </>
   )
 }
