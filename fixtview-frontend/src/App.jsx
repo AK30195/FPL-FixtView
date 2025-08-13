@@ -104,7 +104,7 @@ function App() {
 
       // Account for teams that are currently assigned max difficulty rating
       setDifficultyRatings(prevRatings => {
-        const updated = { ...prevRatings };
+        const updated = structuredClone(prevRatings);
 
         for (const teamId in updated) {
           const team = updated[teamId];
@@ -118,7 +118,7 @@ function App() {
       });
 
       // Remove the highest difficulty level
-      const updated = { ...prevColours };
+      const updated = structuredClone(prevColours);
       delete updated[maxLevel];
       return updated;
     });
@@ -126,9 +126,9 @@ function App() {
 
 
   const resetSettings = () => {
-    // Ensures react gets new object reference to re-render
-    setDifficultyRatings(JSON.parse(JSON.stringify(defaultTeamDiffRatings)));
-    setDifficultyColours(JSON.parse(JSON.stringify(defaultDifficultyColours)));
+    // Cloning ensures react gets new object reference and re-renders
+    setDifficultyRatings(structuredClone(defaultTeamDiffRatings));
+    setDifficultyColours(structuredClone(defaultDifficultyColours));
     
     localStorage.setItem('difficultyColours', JSON.stringify(defaultDifficultyColours));
     localStorage.setItem('difficultyRatings', JSON.stringify(defaultTeamDiffRatings));
