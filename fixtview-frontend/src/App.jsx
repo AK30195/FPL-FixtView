@@ -32,6 +32,10 @@ function App() {
   // State for showing/hiding control features
   const [showControls, setShowControls] = useState(true);
 
+  // State for which fixture grid is being viewed
+  const gridViewOptions = [0, 1, 2]; // Overall=1, Attacking=1, Defensive=2
+  const [gridView, setGridView] = useState(0);
+
   // Load next gameweek into state by calling api
   useEffect(() => {
     async function fetchNextGameweek() {
@@ -72,14 +76,16 @@ function App() {
     }
   }
 
-  const editRatings = (teamId, venue, value) => {
-    setDifficultyRatings(prev => ({
-      ...prev,
-      [teamId]: {
-        ...prev[teamId],
+  const editRatings = (teamId, venue, value, gridView) => {
+    setDifficultyRatings(prev => {
+      const updated = [...prev];
+      updated[gridView] = {
+        ...updated[gridView],
+        ...updated[gridView][teamId],
         [venue]: value
       }
-    }));
+      return updated;
+    });
   };
 
   const editColours = (diffLevel, newColour) => {
@@ -132,7 +138,7 @@ function App() {
     // Cloning ensures react gets new object reference and re-renders
     setDifficultyRatings(structuredClone(defaultTeamDiffRatings));
     setDifficultyColours(structuredClone(defaultDifficultyColours));
-    
+
     localStorage.setItem('difficultyColours', JSON.stringify(defaultDifficultyColours));
     localStorage.setItem('difficultyRatings', JSON.stringify(defaultTeamDiffRatings));
   };
@@ -151,6 +157,11 @@ function App() {
             showControls={showControls}
             setShowControls={setShowControls}
           />
+          <button
+            onClick={() => setGridView(1)}
+          >
+            Attack FDR
+          </button>
         </div>
       </div>
       {showControls && (
@@ -166,8 +177,9 @@ function App() {
           />
           <DifficultyToggler
             difficultyColours={difficultyColours}
-            difficultyRatings={difficultyRatings}
+            difficultyRatings={difficultyRatings[gridView]}
             editRatings={editRatings}
+            gridView={gridView}
           />
         </div>
       )}
@@ -184,10 +196,10 @@ function App() {
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
         difficultyColours={difficultyColours}
-        difficultyRatings={difficultyRatings}
+        difficultyRatings={difficultyRatings[gridView]}
       />
-      <Footer/>
-      <Analytics/>
+      <Footer />
+      <Analytics />
     </>
   )
 }

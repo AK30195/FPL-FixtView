@@ -2,7 +2,7 @@ import { useFixturesByTeam } from "../hooks/useFixtures";
 import Fixture from "./Fixture";
 
 function TeamFixturesList({ team, fixtures, rangeStart, rangeEnd, 
-  difficultyColours, difficultyRatings, }) {
+  difficultyColours, difficultyRatings }) {
 
   const { fixturesByTeam, loading } = useFixturesByTeam();
   
