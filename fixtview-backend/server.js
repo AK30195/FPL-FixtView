@@ -7,9 +7,20 @@ const PORT = process.env.PORT || 4000;
 
 app.use(cors()); // Allow all origins (or configure if needed)
 
+// Pre-configured axios instance with headers
+const fplAxios = axios.create({
+  headers: {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0',
+    'Accept': 'application/json,text/plain,*/*',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Referer': 'https://fantasy.premierleague.com/',
+    'Origin': 'https://fantasy.premierleague.com',
+  }
+});
+
 app.get('/api/fixtures', async (req, res) => {
     try {
-        const response = await axios.get('https://fantasy.premierleague.com/api/fixtures/');
+        const response = await fplAxios.get('https://fantasy.premierleague.com/api/fixtures/');
         res.json(response.data);
     } catch (error) {
         console.error('Error fetching fixtures:', error.message);
@@ -19,7 +30,7 @@ app.get('/api/fixtures', async (req, res) => {
 
 app.get('/api/teams', async (req, res) => {
     try {
-        const response = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
+        const response = await fplAxios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
         res.json(response.data.teams);
     } catch (error) {
         console.error('Error fetching teams:', error.message);
@@ -29,7 +40,7 @@ app.get('/api/teams', async (req, res) => {
 
 app.get('/api/gameweeks', async (req, res) => {
     try {
-        const response = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
+        const response = await fplAxios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
         res.json(response.data.events);
     } catch (error) {
         console.error('Error fetching gameweek data:', error.message);

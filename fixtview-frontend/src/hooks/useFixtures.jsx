@@ -14,7 +14,7 @@ export function useFixturesByTeam() {
 
         teams.forEach((team) => {
            const teamFixtures = fixtures.filter(
-            (fix) => (fix.event >= nextGameweek) && (fix.team_h === team.id || fix.team_a === team.id)
+            (fix) => (fix.event >= nextGameweek - 1) && (fix.team_h === team.id || fix.team_a === team.id)
           );
 
           grouped[team.id] = {
