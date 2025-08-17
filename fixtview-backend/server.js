@@ -1,13 +1,28 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const NodeCache = require( "node-cache" );
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+app.use(cors());
 
-app.use(cors()); // Allow all origins (or configure if needed)
+const cache = new NodeCache({stdTTL: 100, checkperiod: 300 });
 
-// Pre-configured axios instance with headers
+// Checks cache for requested api endpoint, if data cached then return, else api called & data stored
+async function fetchWithCache(key, url, ttlSecs) {
+    const isCached = cache.get(key);
+    if(isCached) {
+        return isCached;
+    } else {
+        const response = await fplAxios.get(url);
+        cache.set(key, response.data, ttlSecs);
+        return response.data;
+    }
+}
+
+
+// Pre-configured axios instance with headers to imitate api call from browser & FPL site
 const fplAxios = axios.create({
   headers: {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0',
@@ -20,8 +35,8 @@ const fplAxios = axios.create({
 
 app.get('/api/fixtures', async (req, res) => {
     try {
-        const response = await fplAxios.get('https://fantasy.premierleague.com/api/fixtures/');
-        res.json(response.data);
+        const data = await fetchWithCache('fixtures', 'https://fantasy.premierleague.com/api/fixtures/', 1800);
+        res.json(data);
     } catch (error) {
         console.error('Error fetching fixtures:', error.message);
         res.status(500).json({ error: 'Failed to fetch fixtures' });
@@ -30,8 +45,8 @@ app.get('/api/fixtures', async (req, res) => {
 
 app.get('/api/teams', async (req, res) => {
     try {
-        const response = await fplAxios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
-        res.json(response.data.teams);
+        const data = await fetchWithCache('teams', 'https://fantasy.premierleague.com/api/bootstrap-static/', 86400);
+        res.json(data.teams);
     } catch (error) {
         console.error('Error fetching teams:', error.message);
         res.status(500).json({ error: 'Failed to fetch teams' });
@@ -40,8 +55,8 @@ app.get('/api/teams', async (req, res) => {
 
 app.get('/api/gameweeks', async (req, res) => {
     try {
-        const response = await fplAxios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
-        res.json(response.data.events);
+        const data = await fetchWithCache('gameweeks', 'https://fantasy.premierleague.com/api/bootstrap-static/', 60);
+        res.json(data.events);
     } catch (error) {
         console.error('Error fetching gameweek data:', error.message);
         res.status(500).json({ error: 'Failed to fetch gameweek data' });
