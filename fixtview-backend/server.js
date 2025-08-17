@@ -9,19 +9,6 @@ app.use(cors());
 
 const cache = new NodeCache({stdTTL: 100, checkperiod: 300 });
 
-// Checks cache for requested api endpoint, if data cached then return, else api called & data stored
-async function fetchWithCache(key, url, ttlSecs) {
-    const isCached = cache.get(key);
-    if(isCached) {
-        return isCached;
-    } else {
-        const response = await fplAxios.get(url);
-        cache.set(key, response.data, ttlSecs);
-        return response.data;
-    }
-}
-
-
 // Pre-configured axios instance with headers to imitate api call from browser & FPL site
 const fplAxios = axios.create({
   headers: {
@@ -32,6 +19,20 @@ const fplAxios = axios.create({
     'Origin': 'https://fantasy.premierleague.com',
   }
 });
+
+// Checks cache for requested api endpoint, if data cached then return, else api called & data stored
+async function fetchWithCache(key, url, ttlSecs) {
+    const isCached = cache.get(key);
+    if(isCached) {
+        console.log(`[CACHE HIT] ${key}`);
+        return isCached;
+    } else {
+        console.log(`[CACHE MISS] ${key}, fetching ${url}`);
+        const response = await fplAxios.get(url);
+        cache.set(key, response.data, ttlSecs);
+        return response.data;
+    }
+}
 
 app.get('/api/fixtures', async (req, res) => {
     try {
