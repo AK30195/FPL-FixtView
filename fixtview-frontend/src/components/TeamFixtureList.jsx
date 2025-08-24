@@ -1,18 +1,19 @@
 import { useFixturesByTeam } from "../hooks/useFixtures";
 import Fixture from "./Fixture";
 
-function TeamFixturesList({ team, fixtures, rangeStart, rangeEnd, 
+function TeamFixturesList({ team, fixtures, rangeStart, rangeEnd, currentGW, 
   difficultyColours, difficultyRatings, }) {
 
   const { fixturesByTeam, loading } = useFixturesByTeam();
-  
 
   if (loading) return <p>Loading fixtures...</p>;
 
   return (
     <div className="fixture-list">
-      <div className="team-cell">{team.short_name}</div>
-      {fixtures.slice(rangeStart - 1, rangeEnd).map((fixture) => {
+      <div className="team-cell">
+        <img className="crest-svg" src={`/crests/${team.id}.svg`} alt="" loading="lazy" />
+      </div>
+      {fixtures.slice(rangeStart - currentGW, rangeEnd - 1).map((fixture) => {
         const isHome = fixture.team_h === team.id;
         const opponentId = isHome ? fixture.team_a : fixture.team_h;
         const opponent = fixturesByTeam[opponentId]?.team?.short_name || "";

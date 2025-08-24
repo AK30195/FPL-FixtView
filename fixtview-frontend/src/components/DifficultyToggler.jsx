@@ -10,7 +10,7 @@ function DifficultyToggler({ difficultyColours, difficultyRatings, editRatings }
                 {Object.entries(difficultyRatings).map(([teamId, team]) => (
                     <div className="team-diff-div" key={teamId}>
                         <div className="team-name-div">
-                            <p>{team.name}</p>
+                            <img className="crest-svg" src={`/crests/${teamId}.svg`} alt="" loading="lazy" />
                         </div>
                         <div>
                             <label htmlFor={`home-select-${teamId}`}>

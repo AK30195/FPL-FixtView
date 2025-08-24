@@ -88,7 +88,7 @@
   }
 
   .team-name-div {
-    @apply mx-2 bg-slate-700 text-white p-1 rounded-sm border-2 outline-1 outline-black border-white w-12 lg:w-15 text-center
+    @apply mx-2 bg-slate-500 text-white p-1 rounded-sm border-2 outline-1 outline-black border-white w-12 lg:w-15 text-center
   }
 
   .range-select-div {
@@ -113,11 +113,11 @@
   }
 
   .grid-corner {
-    @apply p-2 border-2 border-white rounded-sm text-center bg-slate-700 box-border flex-shrink-0 w-14 h-10;
+    @apply p-2 border-2 border-white rounded-sm text-center bg-slate-500 box-border flex-shrink-0 w-14 h-10;
   }
 
   .header-cell {
-    @apply p-2 border-2 border-white rounded-sm text-center bg-slate-700 text-white box-border flex-shrink-0 w-14 h-10;
+    @apply p-2 border-2 border-white rounded-sm text-center bg-slate-500 text-white box-border flex-shrink-0 w-14 h-10;
   }
 
   .fixture-list {
@@ -125,7 +125,11 @@
   }
 
   .team-cell {
-    @apply p-2 flex-center border-2 border-white rounded-sm sticky left-0 bg-slate-700 text-white box-border flex-shrink-0 w-14 h-12;
+    @apply p-2 flex-center border-2 border-white rounded-sm sticky left-0 bg-slate-500 text-white box-border flex-shrink-0 w-14 h-12;
+  }
+
+  .crest-svg {
+    @apply flex-center w-12 h-9.5
   }
 
   .fixture-cell {
