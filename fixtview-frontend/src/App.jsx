@@ -183,6 +183,7 @@ function App() {
       <FixtureGrid
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
+        rangeMin={rangeMin}
         difficultyColours={difficultyColours}
         difficultyRatings={difficultyRatings}
       />

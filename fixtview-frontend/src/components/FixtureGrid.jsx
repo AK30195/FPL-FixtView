@@ -3,9 +3,9 @@ import { useNextGameweek } from "../hooks/useNextGameweek";
 import TeamFixtureList from './TeamFixtureList';
 
 
-function FixtureGrid({ rangeStart, rangeEnd, difficultyColours, difficultyRatings }) {
+function FixtureGrid({ rangeStart, rangeEnd, rangeMin, difficultyColours, difficultyRatings }) {
     const { fixturesByTeam, loading } = useFixturesByTeam();
-    const currentGW = useNextGameweek() - 1;
+
 
     if (
         loading ||
@@ -38,7 +38,7 @@ function FixtureGrid({ rangeStart, rangeEnd, difficultyColours, difficultyRating
                                 fixtures={fixtures}
                                 rangeStart={rangeStart}
                                 rangeEnd={rangeEnd}
-                                currentGW={currentGW}
+                                rangeMin={rangeMin}
                                 difficultyColours={difficultyColours}
                                 difficultyRatings={difficultyRatings}
                             />

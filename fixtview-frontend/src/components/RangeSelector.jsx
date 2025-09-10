@@ -24,7 +24,7 @@ function RangeSelector({ rangeStart, rangeEnd, rangeMin, selectStart, selectEnd 
       <div>
         <label htmlFor="rangeEndSelector">GW</label>
         <select name="rangeEnd" id="rangeEndSelector" value={rangeEnd} onChange={(e) => selectEnd(Number(e.target.value))} >
-          {gameweekOptions.slice(rangeStart - 1).map((gw) => (
+          {gameweekOptions.slice(rangeStart - rangeMin).map((gw) => (
             <option key={gw} value={gw}>
               {gw}
             </option>
