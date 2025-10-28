@@ -7,7 +7,7 @@ export const defaultDifficultyColours = {
 };
 
 export const defaultTeamDiffRatings = {
-  1: { name: "ARS", home: 4, away: 5 },
+  1: { name: "ARS", home: 5, away: 5 },
   2: { name: "AVL", home: 3, away: 4 },
   3: { name: "BUR", home: 1, away: 2 },
   4: { name: "BOU", home: 3, away: 3 },
@@ -18,14 +18,14 @@ export const defaultTeamDiffRatings = {
   9: { name: "EVE", home: 2, away: 3 },
   10: { name: "FUL", home: 2, away: 3 },
   11: { name: "LEE", home: 1, away: 2 },
-  12: { name: "LIV", home: 5, away: 5 },
+  12: { name: "LIV", home: 4, away: 5 },
   13: { name: "MCI", home: 4, away: 5 },
   14: { name: "MUN", home: 3, away: 3 },
   15: { name: "NEW", home: 3, away: 4 },
-  16: { name: "NFO", home: 3, away: 3 },
-  17: { name: "SUN", home: 1, away: 2 },
+  16: { name: "NFO", home: 2, away: 2 },
+  17: { name: "SUN", home: 2, away: 3 },
   18: { name: "TOT", home: 3, away: 3 },
   19: { name: "WHU", home: 1, away: 2 },
-  20: { name: "WOL", home: 2, away: 2 }
+  20: { name: "WOL", home: 1, away: 2 }
 };
 

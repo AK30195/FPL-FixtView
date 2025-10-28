@@ -35,10 +35,10 @@ function ColourToggler({ difficultyColours, editColours, addDiffLevel, removeDif
                 />
             </div>
             <div className="flex-center">
-                <button onClick={addDiffLevel}>
+                <button className="colour-toggle-button" onClick={addDiffLevel}>
                     Add Colour
                 </button>
-                <button onClick={removeDiffLevel} disabled={levels.length <= 2}>
+                <button className="colour-toggle-button" onClick={removeDiffLevel} disabled={levels.length <= 2}>
                     Delete Colour
                 </button>
             </div>

@@ -17,11 +17,16 @@ function App() {
   // Get state for FDR colours & ratings from either localStorage or defaults
   const [difficultyColours, setDifficultyColours] = useState(() => {
     const savedState = localStorage.getItem('difficultyColours');
-    return savedState ? JSON.parse(savedState) : defaultDifficultyColours;
+    const parsed = savedState ? JSON.parse(savedState) : {};
+    // Merge defaults so any missing keys are filled
+    return { ...defaultDifficultyColours, ...parsed };
   });
+
   const [difficultyRatings, setDifficultyRatings] = useState(() => {
     const savedState = localStorage.getItem('difficultyRatings');
-    return savedState ? JSON.parse(savedState) : defaultTeamDiffRatings;
+    const parsed = savedState ? JSON.parse(savedState) : {};
+    // Merge defaults for missing teams
+    return { ...defaultTeamDiffRatings, ...parsed };
   });
 
   // State for fixture range selection
@@ -132,7 +137,7 @@ function App() {
     // Cloning ensures react gets new object reference and re-renders
     setDifficultyRatings(structuredClone(defaultTeamDiffRatings));
     setDifficultyColours(structuredClone(defaultDifficultyColours));
-    
+
     localStorage.setItem('difficultyColours', JSON.stringify(defaultDifficultyColours));
     localStorage.setItem('difficultyRatings', JSON.stringify(defaultTeamDiffRatings));
   };
@@ -187,8 +192,8 @@ function App() {
         difficultyColours={difficultyColours}
         difficultyRatings={difficultyRatings}
       />
-      <Footer/>
-      <Analytics/>
+      <Footer />
+      <Analytics />
     </>
   )
 }

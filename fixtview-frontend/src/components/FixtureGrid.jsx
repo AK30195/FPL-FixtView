@@ -1,5 +1,4 @@
 import { useFixturesByTeam } from '../hooks/useFixtures';
-import { useNextGameweek } from "../hooks/useNextGameweek";
 import TeamFixtureList from './TeamFixtureList';
 
 
@@ -11,7 +10,9 @@ function FixtureGrid({ rangeStart, rangeEnd, rangeMin, difficultyColours, diffic
         loading ||
         !Number.isInteger(rangeStart) ||
         !Number.isInteger(rangeEnd) ||
-        rangeEnd < rangeStart
+        rangeEnd < rangeStart ||
+        !difficultyRatings ||
+        !difficultyColours
     ) {
         return <p>Loading fixtures...</p>;
     }
