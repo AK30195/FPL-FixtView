@@ -40,7 +40,7 @@ async function fetchWithCache(key, url, ttlSecs) {
 
 app.get('/api/fixtures', async (req, res) => {
     try {
-        const data = await fetchWithCache('fixtures', 'https://fantasy.premierleague.com/api/fixtures/', 1800);
+        const data = await fetchWithCache('fixtures', 'https://fantasy.premierleague.com/api/fixtures/', 5400);
         res.json(data);
     } catch (error) {
         if (error.response) {
@@ -68,7 +68,7 @@ app.get('/api/teams', async (req, res) => {
 
 app.get('/api/gameweeks', async (req, res) => {
     try {
-        const data = await fetchWithCache('gameweeks', 'https://fantasy.premierleague.com/api/bootstrap-static/', 60);
+        const data = await fetchWithCache('gameweeks', 'https://fantasy.premierleague.com/api/bootstrap-static/', 600);
         res.json(data.events);
     } catch (error) {
         if (error.response) {
